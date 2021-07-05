@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="This is a front end to consume instructor api">
+  <meta name="author" content="Shahzan Sadick">
+	<title>Instructor Api Consumer</title>
+	
+</head>
+<body onload="getData()">
+	<div class="header"><h1 class="title">Instructor Api Front end.</h1>
+	</div>
+	<div class="main">
+		<div id='content'>
+			<table id="instructors">
+  					<tr>
+    					<th>Name</th>
+    					<th>Department</th>
+    					<th>Salary</th>
+    					<th>Age</th>
+						<th>Dependants</th>
+  					</tr>
+				</table>
+		</div>
+		<div>
+			<br><br><br>
+			<hr style="border:1px solid">
+			<p>@shahzan.sadick</p>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	function getData(){
+		var request = new XMLHttpRequest();
+		request.open('GET','https://shahzan.pythonanywhere.com/api/data/',true);
+
+		request.onload = function(){
+			//what happens when request is recieved
+			var data = JSON.parse(this.response);
+
+			if (request.status >= 200 && request.status < 400 ){
+				var dataStr = new String();
+				var table = document.getElementById('instructors');
+				data.forEach((tuple) => {
+					var row = document.createElement('TR');
+					dataStr = "<td>"+tuple.name+"</td><td>"+tuple.dept_name+"</td><td>"+tuple.salary+"</td><td>"+tuple.age+"</td><td>"+tuple.dependants+"</td>";
+					row.innerHTML = dataStr;
+					table.appendChild(row);
+				})
+			}
+		}
+		request.send();
+	}
+
+</script>
+</html>
